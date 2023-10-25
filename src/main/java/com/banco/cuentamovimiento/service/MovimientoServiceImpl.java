@@ -108,7 +108,7 @@ public class MovimientoServiceImpl implements MovimientoService {
                         .cliente(clienteRes.getNombre())
                         .numeroCuenta(String.valueOf(cuenta.getNumeroCuenta()))
                         .tipo(cuenta.getTipoCuenta())
-                        .saldoInicial(cuenta.getSaldoInicial())
+                        .saldoInicial(movimiento.getSaldo().add(movimiento.getValor()))
                         .estado(cuenta.isEstado())
                         .movimiento(movimiento.getValor())
                         .saldoDisponible(saldoDisponible)
