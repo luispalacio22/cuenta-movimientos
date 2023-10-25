@@ -1,11 +1,11 @@
 package com.banco.cuentamovimiento.service;
 
+import com.banco.cuentamovimiento.exeptions.CuentaNotFoundException;
 import com.banco.cuentamovimiento.model.Cuenta;
 import com.banco.cuentamovimiento.repository.CuentaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -22,7 +22,7 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     public Cuenta updateCuenta(Long cuentaId, Cuenta cuenta) {
         Cuenta cuentaExistente = cuentaRepository.findById(cuentaId)
-                .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
+                .orElseThrow(() -> new CuentaNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
         cuentaExistente.setNumeroCuenta(cuenta.getNumeroCuenta());
         cuentaExistente.setTipoCuenta(cuenta.getTipoCuenta());
         cuentaExistente.setSaldoInicial(cuenta.getSaldoInicial());
@@ -33,7 +33,7 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     public void deleteCuenta(Long cuentaId) {
         Cuenta cuentaExistente = cuentaRepository.findById(cuentaId)
-                .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
+                .orElseThrow(() -> new CuentaNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
         cuentaRepository.delete(cuentaExistente);
     }
 
@@ -45,6 +45,6 @@ public class CuentaServiceImpl implements CuentaService{
     @Override
     public Cuenta getCuentaById(Long cuentaId) {
         return cuentaRepository.findById(cuentaId)
-                .orElseThrow(() -> new EntityNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
+                .orElseThrow(() -> new CuentaNotFoundException("Cuenta no encontrada con el ID: " + cuentaId));
     }
 }

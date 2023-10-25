@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface MovimientoRepository extends JpaRepository<Movimiento,Long> {
     @Query("SELECT m FROM Movimiento m WHERE m.cuenta = :cuenta AND DATE(m.fecha) BETWEEN DATE(:fechaInicio) AND DATE(:fechaFin)")
     List<Movimiento> findMovimientosByCuentaAndFechas(
             @Param("cuenta") Cuenta cuenta,
-            @Param("fechaInicio") Date fechaInicio,
-            @Param("fechaFin") Date fechaFin
+            @Param("fechaInicio") LocalDate fechaInicio,
+            @Param("fechaFin") LocalDate fechaFin
     );
 }

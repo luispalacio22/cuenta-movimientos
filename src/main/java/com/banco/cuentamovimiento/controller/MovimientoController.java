@@ -1,6 +1,8 @@
 package com.banco.cuentamovimiento.controller;
 
 import com.banco.cuentamovimiento.dto.ReporteDto;
+import com.banco.cuentamovimiento.exeptions.CuentaNotFoundException;
+import com.banco.cuentamovimiento.exeptions.SaldoInsuficienteException;
 import com.banco.cuentamovimiento.model.Movimiento;
 import com.banco.cuentamovimiento.service.MovimientoService;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -51,11 +54,21 @@ public class MovimientoController {
     }
     @GetMapping("/reportes")
     public ResponseEntity<List<ReporteDto>> generarReporte(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
             @RequestParam Long cliente) {
         List<ReporteDto> reporte = movimientoService.generarReporte(fechaInicio, fechaFin, cliente);
         return new ResponseEntity<>(reporte, HttpStatus.OK);
     }
+
+    @ExceptionHandler(CuentaNotFoundException.class)
+    public ResponseEntity<String> handleCuentaNotFoundException(CuentaNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(SaldoInsuficienteException.class)
+    public ResponseEntity<String> handleSaldoInsuficienteException(SaldoInsuficienteException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 
 }
