@@ -3,8 +3,6 @@ package com.banco.cuentamovimiento.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
-
 
 
 

@@ -4,7 +4,6 @@ import com.banco.cuentamovimiento.dto.ReporteDto;
 import com.banco.cuentamovimiento.model.Movimiento;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface MovimientoService {
